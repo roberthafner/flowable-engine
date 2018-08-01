@@ -362,15 +362,15 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
 
         assertTrue(iterator.hasNext());
         event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("firstTask", ((FlowableActivityEvent)event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
         assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
         FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
         Job timer = (Job) entityEvent.getEntity();
         assertEquals("boundaryTimerEvent", getActivityId(timer));
-
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
-        assertEquals("firstTask", ((FlowableActivityEvent)event).getActivityId());
 
         assertTrue(!iterator.hasNext());
 
@@ -415,15 +415,15 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
 
         assertTrue(iterator.hasNext());
         event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("firstTask", ((FlowableActivityEvent)event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
         assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
         FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
         Job timer = (Job) entityEvent.getEntity();
         assertEquals("boundaryTimerEvent", getActivityId(timer));
-
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
-        assertEquals("firstTask", ((FlowableActivityEvent)event).getActivityId());
 
         task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
         assertEquals("firstTask", task.getTaskDefinitionKey());
@@ -482,15 +482,15 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
 
         assertTrue(iterator.hasNext());
         event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("secondTask", ((FlowableActivityEvent)event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
         assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
         entityEvent = (FlowableEngineEntityEvent)event;
         timer = (Job) entityEvent.getEntity();
         assertEquals("secondTimerEvent", getActivityId(timer));
-
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
-        assertEquals("secondTask", ((FlowableActivityEvent)event).getActivityId());
 
         assertTrue(!iterator.hasNext());
 
@@ -1296,19 +1296,17 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
         assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
         assertEquals("subProcess", ((FlowableActivityEvent)event).getActivityId());
 
-        // TODO: Order of the following two events is incorrect. Should receive an Activity_Started event for a task
-        // before the Timer_Scheduled event for boundary timer.
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("subTask", ((FlowableActivityEvent)event).getActivityId());
+
         assertTrue(iterator.hasNext());
         event = iterator.next();
         assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
         FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
         Job timer = (Job) entityEvent.getEntity();
         assertEquals("boundaryTimerEvent", getActivityId(timer));
-
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
-        assertEquals("subTask", ((FlowableActivityEvent)event).getActivityId());
 
         assertTrue(!iterator.hasNext());
 
@@ -1363,19 +1361,18 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
         assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
         assertEquals("subProcess", ((FlowableActivityEvent)event).getActivityId());
 
-        // TODO: Order of the following two events is incorrect. Should receive an Activity_Started event for a task
-        // before the Timer_Scheduled event for boundary timer.
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
-        FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
-        Job timer = (Job) entityEvent.getEntity();
-        assertEquals("boundaryTimerEvent", getActivityId(timer));
-
         assertTrue(iterator.hasNext());
         event = iterator.next();
         assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
         assertEquals("subTask", ((FlowableActivityEvent)event).getActivityId());
+
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+
+        assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
+        FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
+        Job timer = (Job) entityEvent.getEntity();
+        assertEquals("boundaryTimerEvent", getActivityId(timer));
 
         assertTrue(!iterator.hasNext());
 
@@ -1425,19 +1422,17 @@ public class RuntimeServiceChangeStateTest extends PluggableFlowableTestCase {
         assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
         assertEquals("subProcess", ((FlowableActivityEvent)event).getActivityId());
 
-        // TODO: Order of the following two events is incorrect. Should receive an Activity_Started event for a task
-        // before the Timer_Scheduled event for boundary timer.
+        assertTrue(iterator.hasNext());
+        event = iterator.next();
+        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
+        assertEquals("subTask", ((FlowableActivityEvent)event).getActivityId());
+
         assertTrue(iterator.hasNext());
         event = iterator.next();
         assertEquals(FlowableEngineEventType.TIMER_SCHEDULED, event.getType());
         FlowableEngineEntityEvent entityEvent = (FlowableEngineEntityEvent)event;
         Job timer = (Job) entityEvent.getEntity();
         assertEquals("boundaryTimerEvent", getActivityId(timer));
-
-        assertTrue(iterator.hasNext());
-        event = iterator.next();
-        assertEquals(FlowableEngineEventType.ACTIVITY_STARTED, event.getType());
-        assertEquals("subTask", ((FlowableActivityEvent)event).getActivityId());
 
         assertTrue(!iterator.hasNext());
 
